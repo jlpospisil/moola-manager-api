@@ -3,10 +3,9 @@ package com.spring.test;
 import com.spring.test.domain.Test;
 import com.spring.test.domain.TestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -18,8 +17,12 @@ public class TestController {
     @RequestMapping(value = "/test", method = RequestMethod.GET)
     public List index() {
 
-        List<Test> tests = testRepository.findAll();
+        return testRepository.findAll();
+    }
 
-        return tests;
+    @RequestMapping(value = "/test", method = RequestMethod.POST)
+    public Test save(@Valid @RequestBody Test test) {
+
+        return test;
     }
 }

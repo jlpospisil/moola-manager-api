@@ -1,39 +1,34 @@
 package com.spring.test.domain;
 
-import java.io.Serializable;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 //@Table(name = "different talbe name than test")
-public class Test implements Serializable {
+public class Test {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Getter
+    @Setter
     private Long id;
 
-    @Column(nullable = false)
+    @NotNull
+    @Getter
+    @Setter
     private String name;
 
-    @Column
+    @Getter
+    @Setter
     private String description;
 
     // ... additional members, often include @OneToMany mappings
 
-    protected Test() {
-        // no-args constructor required by JPA spec
-        // this one is protected since it shouldn't be used directly
-    }
-
-    public Test(String name, String description) {
-        this.name = name;
-        this.description = description;
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
-    public String getDescription() {
-        return this.description;
-    }
 }
