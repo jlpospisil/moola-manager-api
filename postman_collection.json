@@ -1,0 +1,212 @@
+{
+	"info": {
+		"name": "Spring CRUD Skeleton",
+		"_postman_id": "1f688225-437b-0261-eea8-d403e0f65821",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get all items",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "358ceb17-34bf-4353-8fba-98ac47f64ee6",
+						"type": "text/javascript",
+						"exec": [
+							"const items = JSON.parse(responseBody);",
+							"const item = items.length > 0 ? items[0] : {};",
+							"",
+							"postman.setEnvironmentVariable(\"item_id\", item.id);",
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"tests[\"Items returned\"] =  Array.isArray(items);"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{host}}/test",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"test"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Create new item",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "eee91bbb-c07c-4a9e-bbbf-85feedb251fe",
+						"type": "text/javascript",
+						"exec": [
+							"const item = JSON.parse(responseBody);",
+							"const item_id = item ? item.id : 0;",
+							"postman.setEnvironmentVariable(\"item_id\", item_id);",
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"tests[\"Item created\"] =  item_id != 0;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"Test Item\"\n}"
+				},
+				"url": {
+					"raw": "{{host}}/test",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"test"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get specific item",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1b7c7c8e-de45-48fc-9066-9da06712954b",
+						"type": "text/javascript",
+						"exec": [
+							"const item = JSON.parse(responseBody);",
+							"const item_id = item ? item.id : 0;",
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"tests[\"Item returned\"] =  item_id !== 0;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{host}}/test/{{account_id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"test",
+						"{{account_id}}"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Update specific item",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "078569df-38df-449b-9b47-014524f635ba",
+						"type": "text/javascript",
+						"exec": [
+							"const item = JSON.parse(responseBody);",
+							"const item_id = item ? item.id : 0;",
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"tests[\"Item updated\"] =  item_id !== 0;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"Test Item Updated\"\n}"
+				},
+				"url": {
+					"raw": "{{host}}/test/{{item_id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"test",
+						"{{item_id}}"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Delete specific item",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "685b8f66-da2d-4a79-abcc-fee4e8a08cf5",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{host}}/test/{{item_id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"test",
+						"{{item_id}}"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
