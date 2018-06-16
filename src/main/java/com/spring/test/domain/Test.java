@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
@@ -15,12 +16,18 @@ public class Test {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Getter @Setter private Long id;
+    @Getter
+    @Setter
+    private Long id;
 
     @NotNull
-    @Getter @Setter private String name;
+    @Getter
+    @Setter
+    private String name;
 
-    @Getter @Setter private String description;
+    @Getter
+    @Setter
+    private String description;
 
     // Relationships @OneToMany, etc.
 
