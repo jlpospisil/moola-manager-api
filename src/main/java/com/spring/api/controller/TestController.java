@@ -10,25 +10,26 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@RequestMapping("/test")
 public class TestController {
 
     @Autowired
     private TestRepository testRepository;
 
     // List all items
-    @RequestMapping(value = "/test", method = RequestMethod.GET)
+    @GetMapping
     public List index() {
         return testRepository.findAll();
     }
 
     // Create new item
-    @RequestMapping(value = "/test", method = RequestMethod.POST)
+    @PostMapping
     public Test save(@Valid @RequestBody Test test) {
         return testRepository.saveAndFlush(test);
     }
 
     // Get existing item
-    @RequestMapping(value = "/test/{id}", method = RequestMethod.GET)
+    @GetMapping("/{id}")
     public Test get(@PathVariable("id") long id) {
         Optional<Test> currentTest = testRepository.findById(id);
 
@@ -40,7 +41,7 @@ public class TestController {
     }
 
     // Update existing item
-    @RequestMapping(value = "/test/{id}", method = RequestMethod.PUT)
+    @PutMapping("/{id}")
     public Test update(@PathVariable("id") long id, @Valid @RequestBody Test updatedTest) {
         Optional<Test> currentTest = testRepository.findById(id);
 
@@ -53,7 +54,7 @@ public class TestController {
     }
 
     // Delete existing item
-    @RequestMapping(value = "/test/{id}", method = RequestMethod.DELETE)
+    @DeleteMapping("/{id}")
     public void delete(@PathVariable("id") long id) {
         Optional<Test> currentTest = testRepository.findById(id);
 
