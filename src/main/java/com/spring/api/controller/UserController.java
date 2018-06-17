@@ -1,7 +1,7 @@
 package com.spring.api.controller;
 
 import com.spring.api.domain.User;
-import com.spring.api.http.exception.UnprocessableEntityException;
+import com.spring.api.exception.UnprocessableEntityException;
 import com.spring.api.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
