@@ -1,4 +1,4 @@
-package com.spring.test.domain;
+package com.spring.api.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

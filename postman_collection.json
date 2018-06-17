@@ -52,7 +52,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "eee91bbb-c07c-4a9e-bbbf-85feedb251fe",
+						"id": "7fb98e49-aa85-43df-a539-94294e277123",
 						"type": "text/javascript",
 						"exec": [
 							"const item = JSON.parse(responseBody);",
@@ -60,7 +60,7 @@
 							"postman.setEnvironmentVariable(\"item_id\", item_id);",
 							"",
 							"tests[\"Status code is 200\"] = responseCode.code === 200;",
-							"tests[\"Item created\"] =  item_id != 0;"
+							"tests[\"Item created\"] =  item_id !== 0;"
 						]
 					}
 				}

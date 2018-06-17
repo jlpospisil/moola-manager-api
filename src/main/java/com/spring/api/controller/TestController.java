@@ -1,8 +1,8 @@
-package com.spring.test.controller;
+package com.spring.api.controller;
 
-import com.spring.test.domain.Test;
-import com.spring.test.http.exception.ResourceNotFoundException;
-import com.spring.test.repository.TestRepository;
+import com.spring.api.domain.Test;
+import com.spring.api.http.exception.ResourceNotFoundException;
+import com.spring.api.repository.TestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
