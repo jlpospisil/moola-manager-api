@@ -1,18 +1,55 @@
 {
+	"variables": [],
 	"info": {
 		"name": "Spring CRUD Skeleton",
-		"_postman_id": "1f688225-437b-0261-eea8-d403e0f65821",
+		"_postman_id": "4b4d47bd-fc4d-3e3d-3f5f-2f94845acc90",
 		"description": "",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
 	"item": [
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"const response = JSON.parse(responseBody);",
+							"const token = response.token;",
+							"",
+							"postman.setEnvironmentVariable(\"token\", token);",
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"tests[\"Token returned\"] =  token !== null;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{host}}/login",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\": \"{{username}}\",\n\t\"password\": \"{{password}}\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
 		{
 			"name": "Get all items",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
-						"id": "358ceb17-34bf-4353-8fba-98ac47f64ee6",
 						"type": "text/javascript",
 						"exec": [
 							"const items = JSON.parse(responseBody);",
@@ -27,20 +64,18 @@
 				}
 			],
 			"request": {
+				"url": "{{host}}/api/test",
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"description": ""
+					}
+				],
 				"body": {
 					"mode": "raw",
 					"raw": ""
-				},
-				"url": {
-					"raw": "{{host}}/test",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"test"
-					]
 				},
 				"description": ""
 			},
@@ -52,7 +87,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "7fb98e49-aa85-43df-a539-94294e277123",
 						"type": "text/javascript",
 						"exec": [
 							"const item = JSON.parse(responseBody);",
@@ -66,25 +100,23 @@
 				}
 			],
 			"request": {
+				"url": "{{host}}/api/test",
 				"method": "POST",
 				"header": [
 					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"description": ""
+					},
+					{
 						"key": "Content-Type",
-						"value": "application/json"
+						"value": "application/json",
+						"description": ""
 					}
 				],
 				"body": {
 					"mode": "raw",
 					"raw": "{\n\t\"name\": \"Test Item\"\n}"
-				},
-				"url": {
-					"raw": "{{host}}/test",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"test"
-					]
 				},
 				"description": ""
 			},
@@ -96,7 +128,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "1b7c7c8e-de45-48fc-9066-9da06712954b",
 						"type": "text/javascript",
 						"exec": [
 							"const item = JSON.parse(responseBody);",
@@ -109,21 +140,18 @@
 				}
 			],
 			"request": {
+				"url": "{{host}}/api/test/{{item_id}}",
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"description": ""
+					}
+				],
 				"body": {
 					"mode": "raw",
 					"raw": ""
-				},
-				"url": {
-					"raw": "{{host}}/test/{{account_id}}",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"test",
-						"{{account_id}}"
-					]
 				},
 				"description": ""
 			},
@@ -135,7 +163,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "078569df-38df-449b-9b47-014524f635ba",
 						"type": "text/javascript",
 						"exec": [
 							"const item = JSON.parse(responseBody);",
@@ -148,26 +175,23 @@
 				}
 			],
 			"request": {
+				"url": "{{host}}/api/test/{{item_id}}",
 				"method": "PUT",
 				"header": [
 					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"description": ""
+					},
+					{
 						"key": "Content-Type",
-						"value": "application/json"
+						"value": "application/json",
+						"description": ""
 					}
 				],
 				"body": {
 					"mode": "raw",
 					"raw": "{\n\t\"name\": \"Test Item Updated\"\n}"
-				},
-				"url": {
-					"raw": "{{host}}/test/{{item_id}}",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"test",
-						"{{item_id}}"
-					]
 				},
 				"description": ""
 			},
@@ -179,7 +203,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "685b8f66-da2d-4a79-abcc-fee4e8a08cf5",
 						"type": "text/javascript",
 						"exec": [
 							"tests[\"Status code is 200\"] = responseCode.code === 200;"
@@ -188,21 +211,18 @@
 				}
 			],
 			"request": {
+				"url": "{{host}}/api/test/{{item_id}}",
 				"method": "DELETE",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"description": ""
+					}
+				],
 				"body": {
 					"mode": "raw",
 					"raw": ""
-				},
-				"url": {
-					"raw": "{{host}}/test/{{item_id}}",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"test",
-						"{{item_id}}"
-					]
 				},
 				"description": ""
 			},

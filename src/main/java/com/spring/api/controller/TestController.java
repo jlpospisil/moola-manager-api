@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/test")
+@RequestMapping("/api/test")
 public class TestController {
 
     @Autowired
@@ -30,7 +30,7 @@ public class TestController {
 
     // Get existing item
     @GetMapping("/{id}")
-    public Test get(@PathVariable("id") long id) {
+    public Test get(@PathVariable("id") long id) throws ResourceNotFoundException {
         Optional<Test> currentTest = testRepository.findById(id);
 
         if (currentTest.isPresent()) {
@@ -42,7 +42,7 @@ public class TestController {
 
     // Update existing item
     @PutMapping("/{id}")
-    public Test update(@PathVariable("id") long id, @Valid @RequestBody Test updatedTest) {
+    public Test update(@PathVariable("id") long id, @Valid @RequestBody Test updatedTest) throws ResourceNotFoundException {
         Optional<Test> currentTest = testRepository.findById(id);
 
         if (currentTest.isPresent()) {
@@ -55,7 +55,7 @@ public class TestController {
 
     // Delete existing item
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable("id") long id) {
+    public void delete(@PathVariable("id") long id) throws ResourceNotFoundException {
         Optional<Test> currentTest = testRepository.findById(id);
 
         if (currentTest.isPresent()) {

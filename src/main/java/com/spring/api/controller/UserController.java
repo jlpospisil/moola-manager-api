@@ -1,6 +1,6 @@
 package com.spring.api.controller;
 
-import com.spring.api.domain.User;
+import com.spring.api.domain.ApplicationUser;
 import com.spring.api.exception.UnprocessableEntityException;
 import com.spring.api.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +16,8 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
-    @PostMapping
-    public void create(@Valid @RequestBody User user, BCryptPasswordEncoder encoder) {
+    @PostMapping("/")
+    public void create(@Valid @RequestBody ApplicationUser user, BCryptPasswordEncoder encoder) throws UnprocessableEntityException {
         user.setPassword(encoder.encode(user.getPassword()));
 
         try {
