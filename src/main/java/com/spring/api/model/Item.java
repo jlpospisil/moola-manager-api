@@ -6,12 +6,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-//@Table(name = "different table name than test")
-public class Test {
+@Table(name = "items")
+public class Item {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -28,14 +30,11 @@ public class Test {
     @Setter
     private String description;
 
-    // Relationships @OneToMany, etc.
-
-//    // Getters and setters (replaced by lombok annotation)
-//    public Long getId() {
-//        return this.id;
-//    }
-//
-//    public void setId(Long id) {
-//        this.id = id;
-//    }
+    @Getter
+    @Setter
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(name = "users_items",
+            joinColumns = {@JoinColumn(name = "item_id")},
+            inverseJoinColumns = {@JoinColumn(name = "user_id")})
+    private List<ApplicationUser> users = new ArrayList<>();
 }

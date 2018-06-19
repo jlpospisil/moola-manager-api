@@ -1,37 +1,38 @@
 package com.spring.api.controller;
 
-import com.spring.api.model.Test;
+import com.spring.api.model.Item;
 import com.spring.api.exception.ResourceNotFoundException;
-import com.spring.api.repository.TestRepository;
+import com.spring.api.repository.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/test")
-public class TestController {
+public class ItemController {
 
     @Autowired
-    private TestRepository testRepository;
+    private ItemRepository itemRepository;
 
     // List all items
     @GetMapping
-    public List index() {
-        return testRepository.findAll();
+    public List index(Principal principal) {
+        return itemRepository.findAll();
     }
 
     // Create new item
     @PostMapping
-    public Test save(@Valid @RequestBody Test test) {
-        return testRepository.saveAndFlush(test);
+    public Item save(@Valid @RequestBody Item test) {
+        return itemRepository.saveAndFlush(test);
     }
 
     // Get existing item
     @GetMapping("/{id}")
-    public Test get(@PathVariable("id") long id) throws ResourceNotFoundException {
-        Optional<Test> currentTest = testRepository.findById(id);
+    public Item get(@PathVariable("id") long id) throws ResourceNotFoundException {
+        Optional<Item> currentTest = itemRepository.findById(id);
 
         if (currentTest.isPresent()) {
             return currentTest.get();
@@ -42,12 +43,12 @@ public class TestController {
 
     // Update existing item
     @PutMapping("/{id}")
-    public Test update(@PathVariable("id") long id, @Valid @RequestBody Test updatedTest) throws ResourceNotFoundException {
-        Optional<Test> currentTest = testRepository.findById(id);
+    public Item update(@PathVariable("id") long id, @Valid @RequestBody Item updatedTest) throws ResourceNotFoundException {
+        Optional<Item> currentTest = itemRepository.findById(id);
 
         if (currentTest.isPresent()) {
             updatedTest.setId(id);
-            return testRepository.saveAndFlush(updatedTest);
+            return itemRepository.saveAndFlush(updatedTest);
         }
 
         throw new ResourceNotFoundException();
@@ -56,10 +57,10 @@ public class TestController {
     // Delete existing item
     @DeleteMapping("/{id}")
     public void delete(@PathVariable("id") long id) throws ResourceNotFoundException {
-        Optional<Test> currentTest = testRepository.findById(id);
+        Optional<Item> currentTest = itemRepository.findById(id);
 
         if (currentTest.isPresent()) {
-            testRepository.delete(currentTest.get());
+            itemRepository.delete(currentTest.get());
         }
         else {
             throw new ResourceNotFoundException();

@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -30,6 +32,12 @@ public class ApplicationUser {
     @Setter
     private String password;
 
-    // Relationships @OneToMany, etc.
+    @Getter
+    @Setter
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(name = "users_items",
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "item_id")})
+    private List<Item> items = new ArrayList<>();
 
 }
