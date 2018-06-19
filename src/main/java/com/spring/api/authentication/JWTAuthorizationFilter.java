@@ -1,4 +1,4 @@
-package com.spring.api.security;
+package com.spring.api.authentication;
 
 import io.jsonwebtoken.Jwts;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -11,9 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
-import static com.spring.api.security.SecurityConstants.HEADER_STRING;
-import static com.spring.api.security.SecurityConstants.SECRET;
-import static com.spring.api.security.SecurityConstants.TOKEN_PREFIX;
+import static com.spring.api.authentication.SecurityConstants.HEADER_STRING;
+import static com.spring.api.authentication.SecurityConstants.SECRET;
+import static com.spring.api.authentication.SecurityConstants.TOKEN_PREFIX;
 
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
     public JWTAuthorizationFilter(AuthenticationManager authManager) {

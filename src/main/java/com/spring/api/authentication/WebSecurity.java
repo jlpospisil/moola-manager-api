@@ -1,6 +1,5 @@
-package com.spring.api.security;
+package com.spring.api.authentication;
 
-import com.spring.api.security.auth.UserDetailsServiceImplementation;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

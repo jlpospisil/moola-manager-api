@@ -1,4 +1,4 @@
-package com.spring.api.security;
+package com.spring.api.authentication;
 
 public class SecurityConstants {
     public static final String SECRET = "SecretKeyToGenJWTs";

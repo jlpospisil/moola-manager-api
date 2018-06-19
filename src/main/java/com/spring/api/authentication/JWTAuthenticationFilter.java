@@ -1,4 +1,4 @@
-package com.spring.api.security;
+package com.spring.api.authentication;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.spring.api.domain.ApplicationUser;
@@ -17,8 +17,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
-import static com.spring.api.security.SecurityConstants.EXPIRATION_TIME;
-import static com.spring.api.security.SecurityConstants.SECRET;
+import static com.spring.api.authentication.SecurityConstants.EXPIRATION_TIME;
+import static com.spring.api.authentication.SecurityConstants.SECRET;
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private AuthenticationManager authenticationManager;
