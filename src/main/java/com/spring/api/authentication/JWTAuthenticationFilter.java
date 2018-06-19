@@ -17,8 +17,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
-import static com.spring.api.authentication.SecurityConstants.EXPIRATION_TIME;
-import static com.spring.api.authentication.SecurityConstants.SECRET;
+import static com.spring.api.authentication.JWTConstants.EXPIRATION_TIME;
+import static com.spring.api.authentication.JWTConstants.SECRET;
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private AuthenticationManager authenticationManager;

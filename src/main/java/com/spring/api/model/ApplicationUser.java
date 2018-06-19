@@ -4,20 +4,17 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name="users")
-public class ApplicationUser implements UserDetails {
+public class ApplicationUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -55,30 +52,4 @@ public class ApplicationUser implements UserDetails {
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "item_id")})
     private List<Item> items = new ArrayList<>();
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        // TODO: implement this better
-        return new ArrayList<>();
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return !this.expired;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return !this.locked;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return !this.expired;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return !this.expired;
-    }
 }
