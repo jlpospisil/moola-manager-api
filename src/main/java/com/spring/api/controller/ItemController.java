@@ -1,11 +1,15 @@
 package com.spring.api.controller;
 
+import com.spring.api.model.ApplicationUser;
 import com.spring.api.model.Item;
 import com.spring.api.exception.ResourceNotFoundException;
 import com.spring.api.repository.ItemRepository;
+import com.spring.api.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,10 +20,14 @@ public class ItemController {
     @Autowired
     private ItemRepository itemRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     // List all items
     @GetMapping
-    public List index() {
-        return itemRepository.findAll();
+    public List<Item> index(@AuthenticationPrincipal String username) {
+        ApplicationUser authUser = userRepository.findByUsername(username);
+        return authUser.getItems();
     }
 
     // Create new item
