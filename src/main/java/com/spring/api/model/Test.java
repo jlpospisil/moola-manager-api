@@ -1,4 +1,4 @@
-package com.spring.api.domain;
+package com.spring.api.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,8 +10,8 @@ import javax.validation.constraints.NotNull;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name="users")
-public class ApplicationUser {
+//@Table(name = "different table name than test")
+public class Test {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -20,16 +20,22 @@ public class ApplicationUser {
     private Long id;
 
     @NotNull
-    @Column(unique=true)
     @Getter
     @Setter
-    private String username;
+    private String name;
 
-    @NotNull
     @Getter
     @Setter
-    private String password;
+    private String description;
 
     // Relationships @OneToMany, etc.
 
+//    // Getters and setters (replaced by lombok annotation)
+//    public Long getId() {
+//        return this.id;
+//    }
+//
+//    public void setId(Long id) {
+//        this.id = id;
+//    }
 }

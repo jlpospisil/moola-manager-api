@@ -1,7 +1,7 @@
 package com.spring.api.authentication;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.spring.api.domain.ApplicationUser;
+import com.spring.api.model.ApplicationUser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.json.JSONObject;

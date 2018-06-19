@@ -1,6 +1,6 @@
 package com.spring.api.controller;
 
-import com.spring.api.domain.ApplicationUser;
+import com.spring.api.model.ApplicationUser;
 import com.spring.api.exception.UnprocessableEntityException;
 import com.spring.api.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

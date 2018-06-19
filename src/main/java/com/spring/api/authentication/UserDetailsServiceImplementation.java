@@ -1,6 +1,6 @@
 package com.spring.api.authentication;
 
-import com.spring.api.domain.ApplicationUser;
+import com.spring.api.model.ApplicationUser;
 import com.spring.api.repository.UserRepository;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;

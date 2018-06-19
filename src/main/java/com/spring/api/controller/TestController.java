@@ -1,6 +1,6 @@
 package com.spring.api.controller;
 
-import com.spring.api.domain.Test;
+import com.spring.api.model.Test;
 import com.spring.api.exception.ResourceNotFoundException;
 import com.spring.api.repository.TestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
