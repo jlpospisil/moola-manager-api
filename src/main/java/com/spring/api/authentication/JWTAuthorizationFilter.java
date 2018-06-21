@@ -1,9 +1,14 @@
 package com.spring.api.authentication;
 
+import com.spring.api.model.ApplicationUser;
+import com.spring.api.repository.UserRepository;
 import io.jsonwebtoken.Jwts;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -16,8 +21,11 @@ import static com.spring.api.authentication.JWTConstants.SECRET;
 import static com.spring.api.authentication.JWTConstants.TOKEN_PREFIX;
 
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
-    public JWTAuthorizationFilter(AuthenticationManager authManager) {
+    private UserRepository userRepository;
+
+    public JWTAuthorizationFilter(AuthenticationManager authManager, UserRepository userRepository) {
         super(authManager);
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -40,14 +48,18 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
         if (token != null) {
             // parse the token.
-            String user = Jwts.parser()
+            String username = Jwts.parser()
                     .setSigningKey(SECRET.getBytes())
                     .parseClaimsJws(token.replace(TOKEN_PREFIX, ""))
                     .getBody()
                     .getSubject();
 
-            if (user != null) {
-                return new UsernamePasswordAuthenticationToken(user, null, new ArrayList<>());
+            if (username != null) {
+                ApplicationUser user = userRepository.findByUsername(username);
+
+                if (user != null) {
+                    return new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+                }
             }
         }
 

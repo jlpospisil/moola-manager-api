@@ -25,9 +25,8 @@ public class ItemController {
 
     // List all items
     @GetMapping
-    public List<Item> index(@AuthenticationPrincipal String username) {
-        ApplicationUser authUser = userRepository.findByUsername(username);
-        return authUser.getItems();
+    public List<Item> index(@AuthenticationPrincipal ApplicationUser authUser) {
+        return authUser.getItems(); // TODO: fix resulting error "Could not write JSON: failed to lazily initialize a collection of role: com.spring.api.model.ApplicationUser.items, could not initialize proxy - no Session; nested exception is com.fasterxml.jackson.databind.JsonMappingException: failed to lazily initialize a collection of role: com.spring.api.model.ApplicationUser.items, could not initialize proxy - no Session"
     }
 
     // Create new item
