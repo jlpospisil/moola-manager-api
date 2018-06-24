@@ -1,7 +1,7 @@
 package com.spring.api.model;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,7 +22,6 @@ import java.util.List;
 @AllArgsConstructor
 @Table(name="users")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-@JsonIgnoreProperties("items")
 public class ApplicationUser implements UserDetails {
 
     @Id
@@ -59,6 +58,7 @@ public class ApplicationUser implements UserDetails {
 
     @Getter
     @Setter
+    @JsonIgnore
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(name = "users_items",
             joinColumns = {@JoinColumn(name = "user_id")},
