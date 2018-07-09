@@ -60,10 +60,10 @@ public class ApplicationUser implements UserDetails {
     @Setter
     @JsonIgnore
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinTable(name = "users_items",
+    @JoinTable(name = "user_accounts",
             joinColumns = {@JoinColumn(name = "user_id")},
-            inverseJoinColumns = {@JoinColumn(name = "item_id")})
-    private List<Item> items = new ArrayList<>();
+            inverseJoinColumns = {@JoinColumn(name = "account_id")})
+    private List<Account> accounts = new ArrayList<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

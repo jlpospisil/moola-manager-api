@@ -15,9 +15,9 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "items")
+@Table(name = "accounts")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-public class Item {
+public class Account {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -38,8 +38,8 @@ public class Item {
     @Setter
     @JsonIgnore
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinTable(name = "users_items",
-            joinColumns = {@JoinColumn(name = "item_id")},
+    @JoinTable(name = "user_accounts",
+            joinColumns = {@JoinColumn(name = "account_id")},
             inverseJoinColumns = {@JoinColumn(name = "user_id")})
     private List<ApplicationUser> users = new ArrayList<>();
 }
