@@ -81,6 +81,15 @@ public class ApplicationUser implements UserDetails {
             inverseJoinColumns = {@JoinColumn(name = "account_id")})
     private List<Account> accounts = new ArrayList<>();
 
+    @Getter
+    @Setter
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "user_transactions",
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "transaction_id")})
+    private List<Transaction> transactions = new ArrayList<>();
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         if(this.admin != null && this.admin) {

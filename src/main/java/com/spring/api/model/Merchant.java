@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
@@ -15,9 +16,9 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "accounts")
+@Table(name = "merchants")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-public class Account {
+public class Merchant {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -32,23 +33,18 @@ public class Account {
 
     @Getter
     @Setter
-    private String description;
-
-    @Getter
-    @Setter
-    @JsonIgnore
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "user_accounts",
-            joinColumns = {@JoinColumn(name = "account_id")},
-            inverseJoinColumns = {@JoinColumn(name = "user_id")})
-    private List<ApplicationUser> users = new ArrayList<>();
-
-    @Getter
-    @Setter
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "account_transactions",
-            joinColumns = {@JoinColumn(name = "account_id")},
+    @JoinTable(name = "transaction_merchants",
+            joinColumns = {@JoinColumn(name = "merchant_id")},
             inverseJoinColumns = {@JoinColumn(name = "transaction_id")})
     private List<Transaction> transactions = new ArrayList<>();
+
+    @Getter
+    @Setter
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinTable(name = "merchant_categories",
+            joinColumns = {@JoinColumn(name = "merchant_id")},
+            inverseJoinColumns = {@JoinColumn(name = "category_id")})
+    private Category category;
 }
