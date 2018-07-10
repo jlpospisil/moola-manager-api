@@ -8,6 +8,196 @@
 	},
 	"item": [
 		{
+			"name": "Accounts",
+			"description": "",
+			"item": [
+				{
+					"name": "Create new account",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"const account = JSON.parse(responseBody);",
+									"const account_id = account ? account.id : 0;",
+									"postman.setEnvironmentVariable(\"account_id\", account_id);",
+									"",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"tests[\"Account created\"] =  account_id !== 0;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{host}}/api/account",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Test Account\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get all accounts",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"const accounts = JSON.parse(responseBody);",
+									"const account = accounts.length > 0 ? accounts[0] : {};",
+									"",
+									"postman.setEnvironmentVariable(\"account_id\", account.id);",
+									"",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"tests[\"Accounts returned\"] =  Array.isArray(accounts);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{host}}/api/account",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get specific account",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"const account = JSON.parse(responseBody);",
+									"const account_id = account ? account.id : 0;",
+									"",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"tests[\"Account returned\"] =  account_id !== 0;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{host}}/api/account/{{account_id}}",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Update specific account",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"const account = JSON.parse(responseBody);",
+									"const account_id = account ? account.id : 0;",
+									"",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"tests[\"Account updated\"] =  account_id !== 0;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{host}}/api/account/{{account_id}}",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Test Account Updated\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Delete specific account",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{host}}/api/account/{{account_id}}",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Create new user",
 			"request": {
 				"url": "{{host}}/user",
@@ -59,190 +249,6 @@
 				"body": {
 					"mode": "raw",
 					"raw": "{\n\t\"username\": \"{{username}}\",\n\t\"password\": \"{{password}}\"\n}"
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "Create new account",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							"const account = JSON.parse(responseBody);",
-							"const account_id = account ? account.id : 0;",
-							"postman.setEnvironmentVariable(\"account_id\", account_id);",
-							"",
-							"tests[\"Status code is 200\"] = responseCode.code === 200;",
-							"tests[\"Account created\"] =  account_id !== 0;"
-						]
-					}
-				}
-			],
-			"request": {
-				"url": "{{host}}/api/account",
-				"method": "POST",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Bearer {{token}}",
-						"description": ""
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"name\": \"Test Account\"\n}"
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "Get all accounts",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							"const accounts = JSON.parse(responseBody);",
-							"const account = accounts.length > 0 ? accounts[0] : {};",
-							"",
-							"postman.setEnvironmentVariable(\"account_id\", account.id);",
-							"",
-							"tests[\"Status code is 200\"] = responseCode.code === 200;",
-							"tests[\"Accounts returned\"] =  Array.isArray(accounts);"
-						]
-					}
-				}
-			],
-			"request": {
-				"url": "{{host}}/api/account",
-				"method": "GET",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Bearer {{token}}",
-						"description": ""
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "Get specific account",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							"const account = JSON.parse(responseBody);",
-							"const account_id = account ? account.id : 0;",
-							"",
-							"tests[\"Status code is 200\"] = responseCode.code === 200;",
-							"tests[\"Account returned\"] =  account_id !== 0;"
-						]
-					}
-				}
-			],
-			"request": {
-				"url": "{{host}}/api/account/{{account_id}}",
-				"method": "GET",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Bearer {{token}}",
-						"description": ""
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "Update specific account",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							"const account = JSON.parse(responseBody);",
-							"const account_id = account ? account.id : 0;",
-							"",
-							"tests[\"Status code is 200\"] = responseCode.code === 200;",
-							"tests[\"Account updated\"] =  account_id !== 0;"
-						]
-					}
-				}
-			],
-			"request": {
-				"url": "{{host}}/api/account/{{account_id}}",
-				"method": "PUT",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Bearer {{token}}",
-						"description": ""
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"name\": \"Test Account Updated\"\n}"
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "Delete specific account",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							"tests[\"Status code is 200\"] = responseCode.code === 200;"
-						]
-					}
-				}
-			],
-			"request": {
-				"url": "{{host}}/api/account/{{account_id}}",
-				"method": "DELETE",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Bearer {{token}}",
-						"description": ""
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
 				},
 				"description": ""
 			},
