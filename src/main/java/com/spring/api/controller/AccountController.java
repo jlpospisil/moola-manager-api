@@ -4,13 +4,11 @@ import com.spring.api.model.ApplicationUser;
 import com.spring.api.model.Account;
 import com.spring.api.exception.ResourceNotFoundException;
 import com.spring.api.repository.AccountRepository;
-import com.spring.api.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/account")
@@ -19,13 +17,10 @@ public class AccountController {
     @Autowired
     private AccountRepository accountRepository;
 
-    @Autowired
-    private UserRepository userRepository;
-
     // List all accounts
     @GetMapping
     public List<Account> index(@AuthenticationPrincipal ApplicationUser authUser) {
-        return accountRepository.findbyUserId(authUser.getId());
+        return accountRepository.findAllByUserId(authUser.getId());
     }
 
     // Create new account
@@ -38,13 +33,12 @@ public class AccountController {
 
     // Get existing account
     @GetMapping("/{id}")
-    public Account get(@PathVariable("id") long id) throws ResourceNotFoundException {
-        // TODO: make sure account belongs to authUser
+    public Account get(@PathVariable("id") long id, @AuthenticationPrincipal ApplicationUser authUser) throws ResourceNotFoundException {
+        Account account = accountRepository.findOneByUserId(authUser.getId(), id);
 
-        Optional<Account> currentTest = accountRepository.findById(id);
-
-        if (currentTest.isPresent()) {
-            return currentTest.get();
+        // Get account if it exists and belongs to authenticated user
+        if (account != null) {
+            return account;
         }
 
         throw new ResourceNotFoundException();
@@ -52,14 +46,14 @@ public class AccountController {
 
     // Update existing account
     @PutMapping("/{id}")
-    public Account update(@PathVariable("id") long id, @Valid @RequestBody Account updatedTest) throws ResourceNotFoundException {
-        // TODO: make sure account belongs to authUser
+    public Account update(@PathVariable("id") long id, @Valid @RequestBody Account updatedAccount, @AuthenticationPrincipal ApplicationUser authUser) throws ResourceNotFoundException {
+        Account account = accountRepository.findOneByUserId(authUser.getId(), id);
 
-        Optional<Account> currentTest = accountRepository.findById(id);
-
-        if (currentTest.isPresent()) {
-            updatedTest.setId(id);
-            return accountRepository.saveAndFlush(updatedTest);
+        // Update account if it exists and belongs to authenticated user
+        if (account != null) {
+            updatedAccount.setId(id);
+            updatedAccount.setUsers(account.getUsers());
+            return accountRepository.saveAndFlush(updatedAccount);
         }
 
         throw new ResourceNotFoundException();
@@ -67,13 +61,12 @@ public class AccountController {
 
     // Delete existing account
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable("id") long id) throws ResourceNotFoundException {
-        // TODO: make sure account belongs to authUser
+    public void delete(@PathVariable("id") long id, @AuthenticationPrincipal ApplicationUser authUser) throws ResourceNotFoundException {
+        Account account = accountRepository.findOneByUserId(authUser.getId(), id);
 
-        Optional<Account> currentTest = accountRepository.findById(id);
-
-        if (currentTest.isPresent()) {
-            accountRepository.delete(currentTest.get());
+        // Delete account if it exists and belongs to authenticated user
+        if (account != null) {
+            accountRepository.delete(account);
         }
         else {
             throw new ResourceNotFoundException();
