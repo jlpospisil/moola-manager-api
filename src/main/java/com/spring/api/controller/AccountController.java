@@ -45,19 +45,6 @@ public class AccountController {
         throw new ResourceNotFoundException();
     }
 
-    // Get transactions for an existing account
-    @GetMapping("/{id}/transaction")
-    public List<Transaction> getTransactions(@PathVariable("id") long id, @AuthenticationPrincipal ApplicationUser authUser) throws ResourceNotFoundException {
-        Account account = accountRepository.findOneByUserId(authUser.getId(), id);
-
-        // Get account if it exists and belongs to authenticated user
-        if (account != null) {
-            return account.getTransactions();
-        }
-
-        throw new ResourceNotFoundException();
-    }
-
     // Update existing account
     @PutMapping("/{id}")
     public Account update(@PathVariable("id") long id, @Valid @RequestBody Account updatedAccount, @AuthenticationPrincipal ApplicationUser authUser) throws ResourceNotFoundException {
