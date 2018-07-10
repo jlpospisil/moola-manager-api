@@ -233,6 +233,196 @@
 			]
 		},
 		{
+			"name": "Transactions",
+			"description": "",
+			"item": [
+				{
+					"name": "Create new transaction",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"const account = JSON.parse(responseBody);",
+									"const account_id = account ? account.id : 0;",
+									"postman.setEnvironmentVariable(\"account_id\", account_id);",
+									"",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"tests[\"Account created\"] =  account_id !== 0;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{host}}/api/transaction",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"description\": \"Test Transaction\",\n\t\"amount\": 1.00\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get all transactions",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"const transactions = JSON.parse(responseBody);",
+									"const transaction = transactions.length > 0 ? transactions[0] : {};",
+									"",
+									"postman.setEnvironmentVariable(\"transaction_id\", transaction.id);",
+									"",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"tests[\"Transactions returned\"] =  Array.isArray(transactions);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{host}}/api/transaction",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get specific transaction",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"const transaction = JSON.parse(responseBody);",
+									"const transaction_id = transaction ? transaction.id : 0;",
+									"",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"tests[\"Transaction returned\"] =  transaction_id !== 0;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{host}}/api/transaction/{{transaction_id}}",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Update specific transaction",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"const transaction = JSON.parse(responseBody);",
+									"const transaction_id = transaction ? transaction.id : 0;",
+									"",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"tests[\"Transaction updated\"] =  transaction_id !== 0;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{host}}/api/transaction/{{transaction_id}}",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"description\": \"Test Transaction Updated\",\n\t\"amount\": \"2.25\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Delete specific transaction",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{host}}/api/transaction/{{transaction_id}}",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Create new user",
 			"request": {
 				"url": "{{host}}/user",
