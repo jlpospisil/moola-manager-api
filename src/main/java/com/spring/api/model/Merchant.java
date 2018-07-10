@@ -42,6 +42,7 @@ public class Merchant {
 
     @Getter
     @Setter
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinTable(name = "merchant_categories",
             joinColumns = {@JoinColumn(name = "merchant_id")},

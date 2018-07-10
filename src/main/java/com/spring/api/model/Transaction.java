@@ -39,6 +39,7 @@ public class Transaction {
     @NotNull
     @Getter
     @Setter
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinTable(name = "user_transactions",
             joinColumns = {@JoinColumn(name = "transaction_id")},
@@ -47,6 +48,7 @@ public class Transaction {
 
     @Getter
     @Setter
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinTable(name = "transaction_merchants",
             joinColumns = {@JoinColumn(name = "transaction_id")},
@@ -55,6 +57,7 @@ public class Transaction {
 
     @Getter
     @Setter
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinTable(name = "account_transactions",
             joinColumns = {@JoinColumn(name = "transaction_id")},
@@ -63,6 +66,7 @@ public class Transaction {
 
     @Getter
     @Setter
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinTable(name = "transaction_categories",
             joinColumns = {@JoinColumn(name = "transaction_id")},

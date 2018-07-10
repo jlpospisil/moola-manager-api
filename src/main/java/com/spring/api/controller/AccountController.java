@@ -3,6 +3,7 @@ package com.spring.api.controller;
 import com.spring.api.model.ApplicationUser;
 import com.spring.api.model.Account;
 import com.spring.api.exception.ResourceNotFoundException;
+import com.spring.api.model.Transaction;
 import com.spring.api.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -39,6 +40,19 @@ public class AccountController {
         // Get account if it exists and belongs to authenticated user
         if (account != null) {
             return account;
+        }
+
+        throw new ResourceNotFoundException();
+    }
+
+    // Get transactions for an existing account
+    @GetMapping("/{id}/transaction")
+    public List<Transaction> getTransactions(@PathVariable("id") long id, @AuthenticationPrincipal ApplicationUser authUser) throws ResourceNotFoundException {
+        Account account = accountRepository.findOneByUserId(authUser.getId(), id);
+
+        // Get account if it exists and belongs to authenticated user
+        if (account != null) {
+            return account.getTransactions();
         }
 
         throw new ResourceNotFoundException();
