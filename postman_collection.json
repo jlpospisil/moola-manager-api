@@ -125,6 +125,41 @@
 					"response": []
 				},
 				{
+					"name": "Get specific account transactions",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"const account = JSON.parse(responseBody);",
+									"const account_id = account ? account.id : 0;",
+									"",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"tests[\"Account returned\"] =  account_id !== 0;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{host}}/api/account/{{account_id}}/transaction",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
 					"name": "Update specific account",
 					"event": [
 						{
