@@ -74,6 +74,30 @@ public class AccountTransactionController {
         throw new ResourceNotFoundException();
     }
 
+    // Update existing transaction
+    @PutMapping("/{transaction_id}")
+    public Transaction update(@PathVariable("account_id") long account_id, @PathVariable("transaction_id") long transaction_id, @RequestBody Transaction updatedTransaction, @AuthenticationPrincipal ApplicationUser authUser) throws ResourceNotFoundException {
+        Account account = accountRepository.findOneByUserId(authUser.getId(), account_id);
+
+        // Get account transactions if it exists and belongs to authenticated user
+        if (account != null) {
+            Transaction transaction = transactionRepository.findOneByAccountId(account.getId(), transaction_id);
+
+            if (transaction != null) {
+                updatedTransaction.setId(transaction.getId());
+                updatedTransaction.setUser(authUser);
+                updatedTransaction.setAccount(account);
+
+                // Validate transaction before saving
+                validator.validate(updatedTransaction);
+
+                return transactionRepository.saveAndFlush(updatedTransaction);
+            }
+        }
+
+        throw new ResourceNotFoundException();
+    }
+
     // Get specific transaction for an account
     @DeleteMapping("/{transaction_id}")
     public void delete(@PathVariable("account_id") long account_id, @PathVariable("transaction_id") long transaction_id, @AuthenticationPrincipal ApplicationUser authUser) throws ResourceNotFoundException {

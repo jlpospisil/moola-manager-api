@@ -125,41 +125,6 @@
 					"response": []
 				},
 				{
-					"name": "Get specific account transactions",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"const account = JSON.parse(responseBody);",
-									"const account_id = account ? account.id : 0;",
-									"",
-									"tests[\"Status code is 200\"] = responseCode.code === 200;",
-									"tests[\"Account returned\"] =  account_id !== 0;"
-								]
-							}
-						}
-					],
-					"request": {
-						"url": "{{host}}/api/account/{{account_id}}/transaction",
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{token}}",
-								"description": ""
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"description": ""
-					},
-					"response": []
-				},
-				{
 					"name": "Update specific account",
 					"event": [
 						{
@@ -404,6 +369,201 @@
 					],
 					"request": {
 						"url": "{{host}}/api/transaction/{{transaction_id}}",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Account Transactions",
+			"description": "",
+			"item": [
+				{
+					"name": "Create new account transaction",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"const transaction = JSON.parse(responseBody);",
+									"const transaction_id = transaction ? transaction.id : 0;",
+									"",
+									"postman.setEnvironmentVariable(\"transaction_id\", transaction_id);",
+									"",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"tests[\"Transaction returned\"] =  transaction_id !== 0;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{host}}/api/account/{{account_id}}/transaction",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"description\": \"Test account transaction\",\n\t\"amount\": 22.00\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get account transactions",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"const transactions = JSON.parse(responseBody);",
+									"const transaction = Array.isArray(transactions) && transactions.length > 0 ? transactions[0] : null;",
+									"const transaction_id = transaction ? transaction.id : 0;",
+									"",
+									"postman.setEnvironmentVariable(\"transaction_id\", transaction_id);",
+									"",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"tests[\"Transactions array returned\"] =  Array.isArray(transactions);",
+									"tests[\"Transaction returned\"] =  transaction_id !== 0;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{host}}/api/account/{{account_id}}/transaction",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Update existing account transaction",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"const transaction = JSON.parse(responseBody);",
+									"const transaction_id = transaction ? transaction.id : 0;",
+									"",
+									"postman.setEnvironmentVariable(\"transaction_id\", transaction_id);",
+									"",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"tests[\"Transaction returned\"] =  transaction_id !== 0;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{host}}/api/account/{{account_id}}/transaction/{{transaction_id}}",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"description\": \"Test account transaction updated\",\n\t\"amount\": 233.00\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get specific account transaction",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"const transaction = JSON.parse(responseBody);",
+									"const transaction_id = transaction ? transaction.id : 0;",
+									"",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"tests[\"Transaction returned\"] =  transaction_id !== 0;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{host}}/api/account/{{account_id}}/transaction/{{transaction_id}}",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Delete account transaction",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{host}}/api/account/{{account_id}}/transaction/{{transaction_id}}",
 						"method": "DELETE",
 						"header": [
 							{
