@@ -16,7 +16,7 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
-    @PostMapping("/")
+    @PostMapping
     public void create(@Valid @RequestBody ApplicationUser user, BCryptPasswordEncoder encoder) throws UnprocessableEntityException {
         user.setPassword(encoder.encode(user.getPassword()));
 

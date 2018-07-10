@@ -22,21 +22,25 @@ public class AccountController {
     @Autowired
     private UserRepository userRepository;
 
-    // List all items
+    // List all accounts
     @GetMapping
     public List<Account> index(@AuthenticationPrincipal ApplicationUser authUser) {
         return accountRepository.findbyUserId(authUser.getId());
     }
 
-    // Create new item
+    // Create new account
     @PostMapping
-    public Account save(@Valid @RequestBody Account test) {
-        return accountRepository.saveAndFlush(test);
+    public Account save(@Valid @RequestBody Account details, @AuthenticationPrincipal ApplicationUser authUser) {
+        Account account = accountRepository.saveAndFlush(details);
+        account.getUsers().add(authUser);
+        return accountRepository.saveAndFlush(account);
     }
 
-    // Get existing item
+    // Get existing account
     @GetMapping("/{id}")
     public Account get(@PathVariable("id") long id) throws ResourceNotFoundException {
+        // TODO: make sure account belongs to authUser
+
         Optional<Account> currentTest = accountRepository.findById(id);
 
         if (currentTest.isPresent()) {
@@ -46,9 +50,11 @@ public class AccountController {
         throw new ResourceNotFoundException();
     }
 
-    // Update existing item
+    // Update existing account
     @PutMapping("/{id}")
     public Account update(@PathVariable("id") long id, @Valid @RequestBody Account updatedTest) throws ResourceNotFoundException {
+        // TODO: make sure account belongs to authUser
+
         Optional<Account> currentTest = accountRepository.findById(id);
 
         if (currentTest.isPresent()) {
@@ -59,9 +65,11 @@ public class AccountController {
         throw new ResourceNotFoundException();
     }
 
-    // Delete existing item
+    // Delete existing account
     @DeleteMapping("/{id}")
     public void delete(@PathVariable("id") long id) throws ResourceNotFoundException {
+        // TODO: make sure account belongs to authUser
+
         Optional<Account> currentTest = accountRepository.findById(id);
 
         if (currentTest.isPresent()) {

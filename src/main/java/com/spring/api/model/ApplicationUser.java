@@ -31,6 +31,22 @@ public class ApplicationUser implements UserDetails {
     private Long id;
 
     @NotNull
+    @Getter
+    @Setter
+    private String first_name;
+
+    @NotNull
+    @Getter
+    @Setter
+    private String last_name;
+
+    @NotNull
+    @Column(unique=true)
+    @Getter
+    @Setter
+    private String email;
+
+    @NotNull
     @Column(unique=true)
     @Getter
     @Setter
@@ -44,17 +60,17 @@ public class ApplicationUser implements UserDetails {
     @NotNull
     @Getter
     @Setter
-    private Boolean admin;
+    private Boolean admin=false;
 
     @NotNull
     @Getter
     @Setter
-    private Boolean locked;
+    private Boolean locked=false;
 
     @NotNull
     @Getter
     @Setter
-    private Boolean expired;
+    private Boolean expired=false;
 
     @Getter
     @Setter

@@ -1,12 +1,32 @@
 {
 	"variables": [],
 	"info": {
-		"name": "Spring CRUD Skeleton",
-		"_postman_id": "4b4d47bd-fc4d-3e3d-3f5f-2f94845acc90",
+		"name": "Moola Manager API",
+		"_postman_id": "e4dbb13a-ebc1-d8d0-21cc-58323eecee0a",
 		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
 	"item": [
+		{
+			"name": "Create new user",
+			"request": {
+				"url": "{{host}}/user",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\": \"{{username}}\",\n\t\"password\": \"{{password}}\",\n\t\"first_name\": \"Test\",\n\t\"last_name\": \"User\",\n\t\"email\": \"admin@localhost\"\n}"
+				},
+				"description": "For this route to work, uncomment the line that says permitAll() in WebSecurity class"
+			},
+			"response": []
+		},
 		{
 			"name": "Login",
 			"event": [
@@ -45,62 +65,25 @@
 			"response": []
 		},
 		{
-			"name": "Get all items",
+			"name": "Create new account",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
 						"type": "text/javascript",
 						"exec": [
-							"const items = JSON.parse(responseBody);",
-							"const item = items.length > 0 ? items[0] : {};",
-							"",
-							"postman.setEnvironmentVariable(\"item_id\", item.id);",
+							"const account = JSON.parse(responseBody);",
+							"const account_id = account ? account.id : 0;",
+							"postman.setEnvironmentVariable(\"account_id\", account_id);",
 							"",
 							"tests[\"Status code is 200\"] = responseCode.code === 200;",
-							"tests[\"Items returned\"] =  Array.isArray(items);"
+							"tests[\"Account created\"] =  account_id !== 0;"
 						]
 					}
 				}
 			],
 			"request": {
-				"url": "{{host}}/api/test",
-				"method": "GET",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Bearer {{token}}",
-						"description": ""
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "Create new item",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							"const item = JSON.parse(responseBody);",
-							"const item_id = item ? item.id : 0;",
-							"postman.setEnvironmentVariable(\"item_id\", item_id);",
-							"",
-							"tests[\"Status code is 200\"] = responseCode.code === 200;",
-							"tests[\"Item created\"] =  item_id !== 0;"
-						]
-					}
-				}
-			],
-			"request": {
-				"url": "{{host}}/api/test",
+				"url": "{{host}}/api/account",
 				"method": "POST",
 				"header": [
 					{
@@ -116,31 +99,33 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"name\": \"Test Item\"\n}"
+					"raw": "{\n\t\"name\": \"Test Account\"\n}"
 				},
 				"description": ""
 			},
 			"response": []
 		},
 		{
-			"name": "Get specific item",
+			"name": "Get all accounts",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
 						"type": "text/javascript",
 						"exec": [
-							"const item = JSON.parse(responseBody);",
-							"const item_id = item ? item.id : 0;",
+							"const accounts = JSON.parse(responseBody);",
+							"const account = accounts.length > 0 ? accounts[0] : {};",
+							"",
+							"postman.setEnvironmentVariable(\"account_id\", account.id);",
 							"",
 							"tests[\"Status code is 200\"] = responseCode.code === 200;",
-							"tests[\"Item returned\"] =  item_id !== 0;"
+							"tests[\"Accounts returned\"] =  Array.isArray(accounts);"
 						]
 					}
 				}
 			],
 			"request": {
-				"url": "{{host}}/api/test/{{item_id}}",
+				"url": "{{host}}/api/account",
 				"method": "GET",
 				"header": [
 					{
@@ -158,24 +143,59 @@
 			"response": []
 		},
 		{
-			"name": "Update specific item",
+			"name": "Get specific account",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
 						"type": "text/javascript",
 						"exec": [
-							"const item = JSON.parse(responseBody);",
-							"const item_id = item ? item.id : 0;",
+							"const account = JSON.parse(responseBody);",
+							"const account_id = account ? account.id : 0;",
 							"",
 							"tests[\"Status code is 200\"] = responseCode.code === 200;",
-							"tests[\"Item updated\"] =  item_id !== 0;"
+							"tests[\"Account returned\"] =  account_id !== 0;"
 						]
 					}
 				}
 			],
 			"request": {
-				"url": "{{host}}/api/test/{{item_id}}",
+				"url": "{{host}}/api/account/{{account_id}}",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Update specific account",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"const account = JSON.parse(responseBody);",
+							"const account_id = account ? account.id : 0;",
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"tests[\"Account updated\"] =  account_id !== 0;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{host}}/api/account/{{account_id}}",
 				"method": "PUT",
 				"header": [
 					{
@@ -191,14 +211,14 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"name\": \"Test Item Updated\"\n}"
+					"raw": "{\n\t\"name\": \"Test Account Updated\"\n}"
 				},
 				"description": ""
 			},
 			"response": []
 		},
 		{
-			"name": "Delete specific item",
+			"name": "Delete specific account",
 			"event": [
 				{
 					"listen": "test",
@@ -211,7 +231,7 @@
 				}
 			],
 			"request": {
-				"url": "{{host}}/api/test/{{item_id}}",
+				"url": "{{host}}/api/account/{{account_id}}",
 				"method": "DELETE",
 				"header": [
 					{
