@@ -3,7 +3,6 @@ package com.spring.api.authentication;
 import com.spring.api.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -45,13 +44,13 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration corsConfig = new CorsConfiguration();
-        corsConfig.applyPermitDefaultValues();
-        corsConfig.addAllowedMethod("*");
-        corsConfig.addAllowedOrigin("*");
-
-        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/api/**", corsConfig);
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true);
+        config.applyPermitDefaultValues();
+        config.addAllowedMethod("*");
+        config.addAllowedOrigin("*");
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/api/**", config);
         return source;
     }
 }
