@@ -3,13 +3,13 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.spring.api</groupId>
-	<artifactId>spring-api-skeleton</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<groupId>com.moolamanager</groupId>
+	<artifactId>moola-manager</artifactId>
+	<version>0.0.2</version>
 	<packaging>jar</packaging>
 
 	<name>spring-api-skeleton</name>
-	<description>Demo project for Spring Boot</description>
+	<description>API to service moola manager app</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
