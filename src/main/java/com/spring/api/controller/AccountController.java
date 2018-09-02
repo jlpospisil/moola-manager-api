@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -67,7 +68,9 @@ public class AccountController {
 
         // Delete account if it exists and belongs to authenticated user
         if (account != null) {
-            accountRepository.delete(account);
+            // accountRepository.delete(account); // this was deleting associated transactions and users (even with soft delete implemented)
+            account.setDeleted_at(new Date());
+            accountRepository.saveAndFlush(account);
         }
         else {
             throw new ResourceNotFoundException();

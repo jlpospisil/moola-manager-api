@@ -7,17 +7,29 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.ResultCheckStyle;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
+/**
+ *   TODO: figure out how to get soft delete to maintain account_transactions and user_accounts on soft delete
+ *    so that accounts can be deleted using accountRepository.delete(account)
+ */
 
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "accounts")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+@SQLDelete(sql = "update accounts set deleted_at=now() where id=?", check = ResultCheckStyle.COUNT)
+@Where(clause="deleted_at is null")
 public class Account {
 
     @Id
@@ -39,6 +51,12 @@ public class Account {
     @Getter
     @Setter
     private BigDecimal balance = new BigDecimal("0.00");
+
+    @Getter
+    @Setter
+    @Column(columnDefinition="DATETIME")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date deleted_at;
 
     @Getter
     @Setter
