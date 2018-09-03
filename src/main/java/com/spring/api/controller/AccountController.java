@@ -3,7 +3,6 @@ package com.spring.api.controller;
 import com.spring.api.model.ApplicationUser;
 import com.spring.api.model.Account;
 import com.spring.api.exception.ResourceNotFoundException;
-import com.spring.api.model.Transaction;
 import com.spring.api.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

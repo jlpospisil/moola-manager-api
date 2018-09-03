@@ -3,7 +3,9 @@ package com.spring.api.controller;
 import com.spring.api.exception.ResourceNotFoundException;
 import com.spring.api.model.ApplicationUser;
 import com.spring.api.model.Transaction;
+import com.spring.api.model.Merchant;
 import com.spring.api.repository.TransactionRepository;
+import com.spring.api.repository.MerchantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +21,10 @@ public class TransactionController {
     private TransactionRepository transactionRepository;
 
     @Autowired
-    Validator validator;
+    private MerchantRepository merchantRepository;
+
+    @Autowired
+    private Validator validator;
 
     // List all transactions
     @GetMapping
@@ -30,7 +35,20 @@ public class TransactionController {
     // Create new transaction
     @PostMapping
     public Transaction save(@RequestBody Transaction transaction, @AuthenticationPrincipal ApplicationUser authUser) {
+        // Get the merchant if it exists
+        String merchantName = "test";   // TODO: get this from request body
+        Merchant merchant = merchantRepository.findOneByName(merchantName);
+
+        // Create a merchant otherwise
+        if (merchant == null) {
+            merchant = new Merchant();
+            merchant.setName(merchantName);
+            merchantRepository.saveAndFlush(merchant);
+        }
+
+        // Set transaction user and merchant
         transaction.setUser(authUser);
+        transaction.setMerchant(merchant);
 
         // Validate transaction before saving
         validator.validate(transaction);
