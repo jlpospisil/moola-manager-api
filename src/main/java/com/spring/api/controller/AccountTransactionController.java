@@ -10,6 +10,7 @@ import com.spring.api.repository.MerchantRepository;
 import com.spring.api.repository.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Validator;
@@ -33,6 +34,7 @@ public class AccountTransactionController {
 
     // Get all transactions for an account
     @GetMapping
+    @Transactional
     public List<Transaction> getTransactions(@PathVariable("account_id") long account_id, @AuthenticationPrincipal ApplicationUser authUser) throws ResourceNotFoundException {
         Account account = accountRepository.findOneByUserId(authUser.getId(), account_id);
 

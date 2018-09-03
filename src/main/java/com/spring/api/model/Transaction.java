@@ -46,8 +46,7 @@ public class Transaction {
 
     @Getter
     @Setter
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinTable(name = "transaction_merchants",
             joinColumns = {@JoinColumn(name = "transaction_id")},
             inverseJoinColumns = {@JoinColumn(name = "merchant_id")})
