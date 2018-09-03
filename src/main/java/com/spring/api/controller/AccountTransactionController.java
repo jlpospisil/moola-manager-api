@@ -69,11 +69,19 @@ public class AccountTransactionController {
         Account account = accountRepository.findOneByUserId(authUser.getId(), account_id);
 
         if (account != null) {
-            // Get the merchant if it exists
-            String merchantName = "test";   // TODO: get this from request body
-            Merchant merchant = merchantRepository.findOneByName(merchantName);
+            // Get the merchantName from the request body
+            Merchant merchant = transaction.getMerchant();
 
-            // Create a merchant otherwise
+            if (merchant == null) {
+                merchant = new Merchant();
+            }
+
+            String merchantName = merchant.getName();
+
+            // Try to lookup that merchant
+            merchant = merchantRepository.findOneByName(merchantName);
+
+            // Create a merchant if it doesn't already exist
             if (merchant == null) {
                 merchant = new Merchant();
                 merchant.setName(merchantName);
