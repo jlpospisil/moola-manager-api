@@ -1,8 +1,6 @@
 package com.spring.api.model;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -40,6 +38,8 @@ public class Transaction {
     @JoinColumn(name = "merchant_id",
             foreignKey = @ForeignKey(name = "MERCHANT_ID_FK")
     )
+//    @JsonIdentityReference(alwaysAsId = true)     // TODO: Get this to serialize all references as POJO, not just the first
+//    @JsonProperty(value = "merchant_id")          //      This would serialize everything as an id to at least be consistent
     private Merchant merchant;
 
     @Getter
