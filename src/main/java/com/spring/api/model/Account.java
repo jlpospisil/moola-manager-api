@@ -33,7 +33,7 @@ import java.util.List;
 public class Account {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Getter
     @Setter
     private Long id;
@@ -70,9 +70,6 @@ public class Account {
     @Getter
     @Setter
     @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "account_transactions",
-            joinColumns = {@JoinColumn(name = "account_id")},
-            inverseJoinColumns = {@JoinColumn(name = "transaction_id")})
+    @OneToMany(mappedBy = "account", fetch = FetchType.LAZY)
     private List<Transaction> transactions = new ArrayList<>();
 }

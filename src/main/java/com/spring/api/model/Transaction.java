@@ -20,7 +20,7 @@ import java.math.BigDecimal;
 public class Transaction {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Getter
     @Setter
     private Long id;
@@ -34,39 +34,29 @@ public class Transaction {
     @Setter
     private BigDecimal amount;
 
-    @NotNull
-    @Getter
-    @Setter
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinTable(name = "user_transactions",
-            joinColumns = {@JoinColumn(name = "transaction_id")},
-            inverseJoinColumns = {@JoinColumn(name = "user_id")})
-    private ApplicationUser user;
-
     @Getter
     @Setter
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinTable(name = "transaction_merchants",
-            joinColumns = {@JoinColumn(name = "transaction_id")},
-            inverseJoinColumns = {@JoinColumn(name = "merchant_id")})
+    @JoinColumn(name = "merchant_id",
+            foreignKey = @ForeignKey(name = "MERCHANT_ID_FK")
+    )
     private Merchant merchant;
 
     @Getter
     @Setter
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinTable(name = "account_transactions",
-            joinColumns = {@JoinColumn(name = "transaction_id")},
-            inverseJoinColumns = {@JoinColumn(name = "account_id")})
+    @JoinColumn(name = "account_id",
+            foreignKey = @ForeignKey(name = "ACCOUNT_ID_FK")
+    )
     private Account account;
 
     @Getter
     @Setter
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinTable(name = "transaction_categories",
-            joinColumns = {@JoinColumn(name = "transaction_id")},
-            inverseJoinColumns = {@JoinColumn(name = "category_id")})
+    @JoinColumn(name = "category_id",
+            foreignKey = @ForeignKey(name = "CATEGORY_ID_FK")
+    )
     private Category category;
 }

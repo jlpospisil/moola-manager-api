@@ -82,14 +82,13 @@ public class AccountTransactionController {
             merchant = merchantRepository.findOneByName(merchantName);
 
             // Create a merchant if it doesn't already exist
-            if (merchant == null) {
+            if (merchant == null && merchantName != null) {
                 merchant = new Merchant();
                 merchant.setName(merchantName);
                 merchantRepository.saveAndFlush(merchant);
             }
 
             // Set transaction user, account, and merchant
-            transaction.setUser(authUser);
             transaction.setAccount(account);
             transaction.setMerchant(merchant);
 
@@ -113,7 +112,6 @@ public class AccountTransactionController {
 
             if (transaction != null) {
                 updatedTransaction.setId(transaction.getId());
-                updatedTransaction.setUser(authUser);
                 updatedTransaction.setAccount(account);
 
                 // Validate transaction before saving

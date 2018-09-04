@@ -21,7 +21,7 @@ import java.util.List;
 public class Category {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Getter
     @Setter
     private Long id;
@@ -38,18 +38,6 @@ public class Category {
     @Getter
     @Setter
     @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "merchant_categories",
-            joinColumns = {@JoinColumn(name = "category_id")},
-            inverseJoinColumns = {@JoinColumn(name = "merchant_id")})
-    private List<Merchant> merchants = new ArrayList<>();
-
-    @Getter
-    @Setter
-    @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "transaction_categories",
-            joinColumns = {@JoinColumn(name = "category_id")},
-            inverseJoinColumns = {@JoinColumn(name = "transaction_id")})
+    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
     private List<Transaction> transactions = new ArrayList<>();
 }
