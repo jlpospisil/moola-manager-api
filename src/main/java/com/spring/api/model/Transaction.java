@@ -38,8 +38,8 @@ public class Transaction {
     @JoinColumn(name = "merchant_id",
             foreignKey = @ForeignKey(name = "MERCHANT_ID_FK")
     )
-//    @JsonIdentityReference(alwaysAsId = true)     // TODO: Get this to serialize all references as POJO, not just the first
-//    @JsonProperty(value = "merchant_id")          //      This would serialize everything as an id to at least be consistent
+    @JsonIdentityReference(alwaysAsId = true)
+    @JsonProperty(value = "merchant_id")
     private Merchant merchant;
 
     @Getter
@@ -53,10 +53,11 @@ public class Transaction {
 
     @Getter
     @Setter
-    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id",
             foreignKey = @ForeignKey(name = "CATEGORY_ID_FK")
     )
+    @JsonIdentityReference(alwaysAsId = true)
+    @JsonProperty(value = "category_id")
     private Category category;
 }
