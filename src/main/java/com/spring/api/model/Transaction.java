@@ -38,8 +38,8 @@ public class Transaction {
     @JoinColumn(name = "merchant_id",
             foreignKey = @ForeignKey(name = "MERCHANT_ID_FK")
     )
-    @JsonIdentityReference(alwaysAsId = true)
-    @JsonProperty(value = "merchant_id")
+//    @JsonIdentityReference(alwaysAsId = true)
+//    @JsonProperty(value = "merchant_id")
     private Merchant merchant;
 
     @Getter
@@ -57,7 +57,7 @@ public class Transaction {
     @JoinColumn(name = "category_id",
             foreignKey = @ForeignKey(name = "CATEGORY_ID_FK")
     )
-    @JsonIdentityReference(alwaysAsId = true)
-    @JsonProperty(value = "category_id")
+//    @JsonIdentityReference(alwaysAsId = true)
+//    @JsonProperty(value = "category_id")
     private Category category;
 }
