@@ -8,6 +8,9 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
+    @Query("SELECT t FROM Transaction t JOIN FETCH t.account WHERE t.id = (:id)")
+    Transaction findByIdAndFetchAccountEagerly(@Param("id") Long id);
+
     @Query("select t from Account a join a.transactions t where a.id=:accountId")
     List<Transaction> findAllByAccountId(@Param("accountId") Long accountId);
 

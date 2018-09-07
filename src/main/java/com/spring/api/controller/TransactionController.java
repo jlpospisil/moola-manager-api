@@ -82,11 +82,14 @@ public class TransactionController {
     // Update existing transaction
     @PutMapping("/{id}")
     public Transaction update(@PathVariable("id") long id, @RequestBody Transaction updatedTransaction, @AuthenticationPrincipal ApplicationUser authUser) throws ResourceNotFoundException {
-        Optional<Transaction> transaction = transactionRepository.findById(id);
+        Transaction transaction = transactionRepository.findByIdAndFetchAccountEagerly(id);
         List<Account> userAccounts = authUser.getAccounts();
 
         // Update transaction if it exists and belongs to authenticated user
-        if (transaction.isPresent() && userAccounts.contains(transaction.get().getAccount())) {
+//        Account test1 = transaction.getAccount();
+//        Boolean test = userAccounts.contains(transaction.getAccount());
+        // TODO: figure out why .contains is failing.  probably has to do with
+        if (transaction != null && userAccounts.contains(transaction.getAccount())) {
             updatedTransaction.setId(id);
 
             // Validate transaction before saving
