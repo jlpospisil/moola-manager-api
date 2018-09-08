@@ -29,10 +29,10 @@ public class TransactionController {
     private Validator validator;
 
     // List all transactions
-//    @GetMapping
-//    public List<Transaction> index(@AuthenticationPrincipal ApplicationUser authUser) {
-//        return transactionRepository.findAllByUserId(authUser.getId());
-//    }
+    @GetMapping
+    public List<Transaction> index(@AuthenticationPrincipal ApplicationUser authUser) {
+        return transactionRepository.findAllByUserId(authUser.getId());
+    }
 
     // Create new transaction
     @PostMapping
@@ -68,12 +68,11 @@ public class TransactionController {
     // Get existing transaction
     @GetMapping("/{id}")
     public Transaction get(@PathVariable("id") long id, @AuthenticationPrincipal ApplicationUser authUser) throws ResourceNotFoundException {
-        Optional<Transaction> transaction = transactionRepository.findById(id);
-        List<Account> userAccounts = authUser.getAccounts();
+        Transaction transaction = transactionRepository.findOneByUserIdAndTransactionId(authUser.getId(), id);
 
         // Get transaction if it exists and belongs to authenticated user
-        if (transaction.isPresent() && userAccounts.contains(transaction.get().getAccount())) {
-            return transaction.get();
+        if (transaction != null) {
+            return transaction;
         }
 
         throw new ResourceNotFoundException();
@@ -82,14 +81,10 @@ public class TransactionController {
     // Update existing transaction
     @PutMapping("/{id}")
     public Transaction update(@PathVariable("id") long id, @RequestBody Transaction updatedTransaction, @AuthenticationPrincipal ApplicationUser authUser) throws ResourceNotFoundException {
-        Transaction transaction = transactionRepository.findByIdAndFetchAccountEagerly(id);
-        List<Account> userAccounts = authUser.getAccounts();
+        Transaction transaction = transactionRepository.findOneByUserIdAndTransactionId(authUser.getId(), id);
 
         // Update transaction if it exists and belongs to authenticated user
-//        Account test1 = transaction.getAccount();
-//        Boolean test = userAccounts.contains(transaction.getAccount());
-        // TODO: figure out why .contains is failing.  probably has to do with
-        if (transaction != null && userAccounts.contains(transaction.getAccount())) {
+        if (transaction != null) {
             updatedTransaction.setId(id);
 
             // Validate transaction before saving
@@ -104,12 +99,11 @@ public class TransactionController {
     // Delete existing transaction
     @DeleteMapping("/{id}")
     public void delete(@PathVariable("id") long id, @AuthenticationPrincipal ApplicationUser authUser) throws ResourceNotFoundException {
-        Optional<Transaction> transaction = transactionRepository.findById(id);
-        List<Account> userAccounts = authUser.getAccounts();
+        Transaction transaction = transactionRepository.findOneByUserIdAndTransactionId(authUser.getId(), id);
 
         // Delete transaction if it exists and belongs to authenticated user
-        if (transaction.isPresent() && userAccounts.contains(transaction.get().getAccount())) {
-            transactionRepository.delete(transaction.get());
+        if (transaction != null) {
+            transactionRepository.delete(transaction);
         }
         else {
             throw new ResourceNotFoundException();
