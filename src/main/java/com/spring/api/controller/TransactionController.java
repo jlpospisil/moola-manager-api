@@ -5,6 +5,7 @@ import com.spring.api.model.Account;
 import com.spring.api.model.ApplicationUser;
 import com.spring.api.model.Transaction;
 import com.spring.api.model.Merchant;
+import com.spring.api.repository.AccountRepository;
 import com.spring.api.repository.TransactionRepository;
 import com.spring.api.repository.MerchantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,17 +14,21 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Validator;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/transaction")
 public class TransactionController {
+    // Constants
+    private static final String UNASSIGNED_TRANS_ACCOUNT = "Unassigned Transactions";
 
     @Autowired
     private TransactionRepository transactionRepository;
 
     @Autowired
     private MerchantRepository merchantRepository;
+
+    @Autowired
+    private AccountRepository accountRepository;
 
     @Autowired
     private Validator validator;
@@ -39,6 +44,12 @@ public class TransactionController {
     public Transaction save(@RequestBody Transaction transaction, @AuthenticationPrincipal ApplicationUser authUser) {
         // Get the merchantName from the request body
         Merchant merchant = transaction.getMerchant();
+        Account account = transaction.getAccount();
+
+        // If no account is set, use the UNASSIGNED_TRANS_ACCOUNT
+        if (account == null) {
+            addToUnassignedTransactionsAccount(transaction, authUser);
+        }
 
         if (merchant == null) {
             merchant = new Merchant();
@@ -87,6 +98,13 @@ public class TransactionController {
         if (transaction != null) {
             updatedTransaction.setId(id);
 
+            Account account = updatedTransaction.getAccount();
+
+            // If no account is set, use the UNASSIGNED_TRANS_ACCOUNT
+            if (account == null) {
+                addToUnassignedTransactionsAccount(updatedTransaction, authUser);
+            }
+
             // Validate transaction before saving
             validator.validate(updatedTransaction);
 
@@ -108,5 +126,20 @@ public class TransactionController {
         else {
             throw new ResourceNotFoundException();
         }
+    }
+
+    private void addToUnassignedTransactionsAccount(Transaction transaction, ApplicationUser authUser) {
+        Account account = accountRepository.findOneByNameAndUserId(authUser.getId(), UNASSIGNED_TRANS_ACCOUNT);
+
+        // Create that account if it doesn't already exist
+        if (account == null) {
+            account = new Account();
+            account.setName(UNASSIGNED_TRANS_ACCOUNT);
+            account.getUsers().add(authUser);
+            accountRepository.saveAndFlush(account);
+        }
+
+        // Add the transaction to that account
+        transaction.setAccount(account);
     }
 }
