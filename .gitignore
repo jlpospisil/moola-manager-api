@@ -1,4 +1,6 @@
 *.log
+*.log.*.gz
+
 /target/
 !.mvn/wrapper/maven-wrapper.jar
 
