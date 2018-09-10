@@ -47,6 +47,14 @@ public class Account {
     @Setter
     private String description;
 
+    @Getter
+    @Setter
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "account_type_id",
+            foreignKey = @ForeignKey(name = "ACCOUNT_TYPE_ID_FK")
+    )
+    private AccountType account_type;
+
     @NotNull
     @Getter
     @Setter

@@ -27,6 +27,14 @@ public class Transaction {
     @Setter
     private String description;
 
+    @Getter
+    @Setter
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "transaction_type_id",
+            foreignKey = @ForeignKey(name = "TRANSACTION_TYPE_ID_FK")
+    )
+    private TransactionType transaction_type;
+
     @NotNull
     @Getter
     @Setter
