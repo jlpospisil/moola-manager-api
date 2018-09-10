@@ -42,4 +42,13 @@ public class TransactionType {
     @JsonIgnore
     @OneToMany(mappedBy = "id", fetch = FetchType.LAZY)
     private List<Transaction> transactions = new ArrayList<>();
+
+    @Getter
+    @Setter
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "account_type_transaction_types",
+            joinColumns = {@JoinColumn(name = "transaction_type_id")},
+            inverseJoinColumns = {@JoinColumn(name = "account_type_id")})
+    private List<AccountType> account_types = new ArrayList<>();
 }

@@ -1,6 +1,7 @@
 package com.spring.api.model;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.AllArgsConstructor;
@@ -37,4 +38,13 @@ public class AccountType {
     @JsonIgnore
     @OneToMany(mappedBy = "id", fetch = FetchType.LAZY)
     private List<Account> accounts = new ArrayList<>();
+
+    @Getter
+    @Setter
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "account_type_transaction_types",
+            joinColumns = {@JoinColumn(name = "account_type_id")},
+            inverseJoinColumns = {@JoinColumn(name = "transaction_type_id")})
+    @JsonIdentityReference(alwaysAsId = true)
+    private List<TransactionType> transaction_types = new ArrayList<>();
 }
