@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  db:
+    image: mariadb:latest
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+    ports:
+      - "3310:3306"
+    volumes:
+      - ./mysql:/var/lib/mysql
+
+  api:
+    image: maven:3.3-jdk-8
+    depends_on:
+      - db
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/api
+    working_dir: /api
+    command: mvn spring-boot:run
