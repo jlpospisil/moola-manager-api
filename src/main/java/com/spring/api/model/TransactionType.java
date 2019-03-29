@@ -40,7 +40,7 @@ public class TransactionType {
     @Getter
     @Setter
     @JsonIgnore
-    @OneToMany(mappedBy = "id", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "transaction_type", fetch = FetchType.LAZY)
     private List<Transaction> transactions = new ArrayList<>();
 
     @Getter

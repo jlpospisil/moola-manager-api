@@ -36,7 +36,7 @@ public class AccountType {
     @Getter
     @Setter
     @JsonIgnore
-    @OneToMany(mappedBy = "id", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "account_type", fetch = FetchType.LAZY)
     private List<Account> accounts = new ArrayList<>();
 
     @Getter
