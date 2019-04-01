@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Loader;
+import org.hibernate.annotations.NamedQuery;
 import org.hibernate.annotations.ResultCheckStyle;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
@@ -18,10 +20,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-/**
- *   TODO: figure out how to get soft delete to maintain account_transactions and user_accounts on soft delete
- *    so that accounts can be deleted using accountRepository.delete(account)
- */
 
 @Entity
 @NoArgsConstructor
@@ -29,6 +27,8 @@ import java.util.List;
 @Table(name = "accounts")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 @SQLDelete(sql = "update accounts set deleted_at=now() where id=?", check = ResultCheckStyle.COUNT)
+@Loader(namedQuery = "findAccountById")
+@NamedQuery(name = "findAccountById", query = "select a from Account a where a.id=:id and a.deleted_at is null")
 @Where(clause="deleted_at is null")
 public class Account {
 
